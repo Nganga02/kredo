@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "578169148556",
+    "project_id": "kredo-670fd",
+    "storage_bucket": "kredo-670fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578169148556:android:d7429420c48bb30a27d7a9",
+        "android_client_info": {
+          "package_name": "com.example.kredo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHuYYS3DIEpCBLXrC7tfiMlKl9FANxbdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

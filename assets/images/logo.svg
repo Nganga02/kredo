@@ -1,0 +1,44 @@
+<!--<svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">-->
+<!--<defs>-->
+<!--    <linearGradient id="animatedGradient" x1="0%" y1="0%" x2="100%" y2="0%">-->
+<!--        <stop offset="0%" stop-color="green">-->
+<!--            <animate attributeName="offset" values="-1;1" dur="3s" repeatCount="indefinite" />-->
+<!--        </stop>-->
+<!--        <stop offset="50%" stop-color="red">-->
+<!--            <animate attributeName="offset" values="0;2" dur="3s" repeatCount="indefinite" />-->
+<!--        </stop>-->
+<!--        <stop offset="100%" stop-color="green">-->
+<!--            <animate attributeName="offset" values="1;3" dur="3s" repeatCount="indefinite" />-->
+<!--        </stop>-->
+<!--    </linearGradient>-->
+<!--    <style>-->
+<!--        .logo-text {-->
+<!--        font-family: sans-serif;-->
+<!--        font-size: 48px;-->
+<!--        font-weight: bold;-->
+<!--        fill: url(#animatedGradient);-->
+<!--        }-->
+<!--    </style>-->
+<!--</defs>-->
+
+<!--<text x="50" y="65" class="logo-text">pinlit</text>-->
+<!--</svg>-->
+
+
+<svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+<defs>
+    <linearGradient id="animatedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="40%" stop-color="green"/>
+        <stop offset="75%" stop-color="red"/>
+        <stop offset="65%" stop-color="green"/>
+    </linearGradient>
+</defs>
+
+<text x="88" y="36"
+    font-family="sans-serif"
+    font-size="48"
+    font-weight="bold"
+    fill="url(#animatedGradient)">
+    pinlit
+</text>
+</svg>
