@@ -1,4 +1,4 @@
-import 'package:kredo/utilities/authuser.dart';
+import 'package:kredo/model/authuser.dart';
 
 abstract class FirebaseAuthProvider {
   Future<void> initialize();
@@ -21,6 +21,8 @@ abstract class FirebaseAuthProvider {
   */
   EmailAuthUser? get currentEmailUser;
 
+  String? get displayName;
+
   Future<EmailAuthUser> logIn({
     required String email,
     required String password,
@@ -30,6 +32,7 @@ abstract class FirebaseAuthProvider {
     required String email,
     required String password,
     required String confirmPassword,
+    required String phoneNumber,
   });
 
   Future<void> sendEmailVerification();

@@ -23,3 +23,10 @@ class PasswordDoesNotMatchAuthException implements Exception {
 
 
 class GenericAuthException implements Exception {}
+
+///Local auth exceptions
+class BiometricNotAvailableAuthException implements Exception {}
+
+class BiometricNotEnrolledAuthException implements Exception {}
+
+class BiometricAuthException implements Exception {}

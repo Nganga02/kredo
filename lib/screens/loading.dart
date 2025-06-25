@@ -6,11 +6,12 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget logo = SvgPicture.asset('assets/images/logo.svg', semanticsLabel: 'Logo',);
-    return Container(
-      height: 100,
-      width: 300,
-      child: Center(child: logo),
+    final Widget logo = SvgPicture.asset(
+      'assets/images/logo.svg',
+      semanticsLabel: 'Logo',
+    );
+    return Center(
+      child: SizedBox(height: 100, width: 300, child: Center(child: logo)),
     );
   }
 }

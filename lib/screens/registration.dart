@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kredo/repository/auth_repositoty.dart';
+import 'package:kredo/screens/loading.dart';
+import 'package:kredo/utilities/information_window.dart';
+import 'package:kredo/widgets/email_verification.dart';
 import 'package:kredo/widgets/textfield.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -13,7 +16,6 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-
   /*
   These are the variables used in the following class state
   @Author: Ng'ang'a
@@ -49,37 +51,55 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SvgPicture.asset(
-                'assets/images/logo.svg',
-                height: 200,
+              LoadingScreen(),
+              Text(
+                "Registration",
+                style: TextTheme.of(
+                  context,
+                ).headlineSmall!.copyWith(fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 40),
-              Text("Registration",
-                style: TextTheme.of(context).headlineMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextField(
+                  controller: _phoneNumber,
+                  cursorColor: Colors.green.shade700,
+                  cursorErrorColor: Colors.red,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    hintText: "exp: +254 746 011 197",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Colors.green.shade700,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: TextField(
                   controller: _email,
+                  cursorColor: Colors.green.shade700,
+                  cursorErrorColor: Colors.red,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: "Enter your email",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: TextField(
-                  controller: _email,
-                  decoration: InputDecoration(
-                    hintText: "Enter your email",
-                    border: OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Colors.green.shade700,
+                        width: 2.0,
+                      ),
                     ),
                   ),
                 ),
@@ -95,21 +115,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               PassTextField(
                 key: ValueKey("signUpConfirmPass"),
                 hintText: "Enter your password",
-                password: _password,
+                password: _confirmPass,
                 keyboardType: TextInputType.text,
               ),
               SizedBox(height: 40),
-              ElevatedButton(onPressed: () async {
-                final email = _email.text;
-                final password = _password.text;
-                final confirmPass = _confirmPass.text;
-                try {
-                  FirebaseAuthRepository.build().createEmailUser(email: email, password: password, confirmPassword: password);
-                  Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-                }catch (e){
-
-                }
-              }, child: Text("Sign In")),
+              ElevatedButton(
+                onPressed: () async {
+                  final email = _email.text;
+                  final password = _password.text;
+                  final confirmPass = _confirmPass.text;
+                  final phoneNumber = _phoneNumber.text;
+                  try {
+                    FirebaseAuthRepository.build().createEmailUser(
+                      email: email,
+                      password: password,
+                      confirmPassword: confirmPass,
+                      phoneNumber: phoneNumber,
+                    );
+                    await emailVerificationDialog(
+                      context,
+                      FirebaseAuthRepository.build().sendEmailVerification,
+                    );
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/home',
+                      (Route<dynamic> route) => false,
+                    );
+                  } catch (e) {
+                    await showErrorDialog(context, e.toString());
+                  }
+                },
+                child: Text("Sign up"),
+              ),
               SizedBox(height: 40),
               Row(
                 mainAxisSize: MainAxisSize.min,
@@ -119,12 +155,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/registration',
-                            (Route<dynamic> route) => false,
+                        '/login',
+                        (Route<dynamic> route) => false,
                       );
                     },
                     child: Text(
-                      "Sign Up",
+                      "Sign In",
                       style: TextTheme.of(context).bodyMedium!.copyWith(
                         color: Colors.blueAccent,
                         decoration: TextDecoration.underline,

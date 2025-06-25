@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
@@ -16,9 +14,19 @@ class PhoneAuthUser {
 @immutable
 class EmailAuthUser{
   final bool isEmailVerified;
+  final String? displayName;
 
-  const EmailAuthUser(this.isEmailVerified);
+  const EmailAuthUser(this.isEmailVerified, this.displayName);
 
-  factory EmailAuthUser.fromFirebase(User user) => EmailAuthUser(user.emailVerified);
+  factory EmailAuthUser.fromFirebase(User user) => EmailAuthUser(user.emailVerified, user.displayName);
 
+}
+
+@immutable
+class RegisteredUser{
+  final String? Id;
+  final String? phoneNumber;
+  final String? displayName;
+
+  const RegisteredUser(this.Id, this.phoneNumber, this.displayName);
 }

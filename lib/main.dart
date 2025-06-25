@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import '../screens/landing.dart';
 import '../constants/pageroutes.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'White Text UI',
       theme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white, // Light deep green
         textTheme: const TextTheme(
@@ -30,6 +31,7 @@ void main() {
         ),
       ),
       darkTheme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black,
         textTheme: const TextTheme(
@@ -55,7 +57,7 @@ void main() {
       ),
       themeMode: ThemeMode.system,
       routes: routes, // Automatically switch based on system theme
-      home: const LandingScreen(title: "Mpesa Kredo"),
+      home: LandingScreen(title: "Swipe"),
     ),
   );
 }

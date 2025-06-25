@@ -1,7 +1,7 @@
 import 'package:kredo/provider/auth_provider.dart';
 import 'package:kredo/service/auth_service.dart';
 import 'package:kredo/utilities/auth_exceptions.dart';
-import 'package:kredo/utilities/authuser.dart';
+import 'package:kredo/model/authuser.dart';
 
 class FirebaseAuthRepository implements FirebaseAuthProvider{
   final FirebaseAuthProvider firebaseAuthProvider;
@@ -14,14 +14,17 @@ class FirebaseAuthRepository implements FirebaseAuthProvider{
   Future<void> initialize() => firebaseAuthProvider.initialize();
 
   @override
-  Future<EmailAuthUser> createEmailUser({required String email, required String password, required String confirmPassword}) {
+  Future<EmailAuthUser> createEmailUser({required String email, required String password, required String confirmPassword, required String phoneNumber}) {
     if(password == confirmPassword){
-      return firebaseAuthProvider.createEmailUser(email: email, password: password, confirmPassword: confirmPassword);
+      return firebaseAuthProvider.createEmailUser(email: email, password: password, confirmPassword: confirmPassword, phoneNumber: phoneNumber);
     }
     else {
       throw PasswordDoesNotMatchAuthException();
     }
   }
+
+  @override
+  String? get displayName => firebaseAuthProvider.displayName;
 
   @override
   EmailAuthUser? get currentEmailUser => firebaseAuthProvider.currentEmailUser;
@@ -50,4 +53,5 @@ class FirebaseAuthRepository implements FirebaseAuthProvider{
 
   @override
   Future<PhoneAuthUser> verifyPhone({required String phoneNumber}) => firebaseAuthProvider.verifyPhone(phoneNumber: phoneNumber);
+
 }

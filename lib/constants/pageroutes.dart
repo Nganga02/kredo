@@ -8,5 +8,5 @@ Map<String, Widget Function(BuildContext context)>routes = {
   '/root': (context) => LandingScreen(title: "Swipe"),
   '/login' : (context) => LoginScreen(title: "Swipe"),
   '/home' : (context) => HomeScreen(),
-  '/registration' : (context) => RegistrationScreen(title: "Swipe"),)
+  '/registration' : (context) => RegistrationScreen(title: "Swipe"),
 };
