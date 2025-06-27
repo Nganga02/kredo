@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kredo/repository/auth_repositoty.dart';
 import 'package:kredo/screens/loading.dart';
+import 'package:kredo/utilities/information_window.dart';
 import 'package:kredo/widgets/textfield.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -87,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       (Route<dynamic> route) => false,
                     );
                   } catch (e) {
-
+                      showErrorDialog(context, e.toString());
                   }
                 },
                 child: Text("Sign In"),

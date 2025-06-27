@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kredo/repository/local_auth_repository.dart';
+import 'package:kredo/screens/profile.dart';
+import 'package:kredo/screens/transactions.dart';
+import 'package:kredo/screens/welcome.dart';
+import 'package:kredo/widgets/navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,32 +12,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late final bool _shouldLogin;
+  late int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    _shouldLogin = true;
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _shouldLogin = false;
-    super.dispose();
+  void _currentIndex(int index){
+    if(_selectedIndex != index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+    print(_selectedIndex);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-        future: LocalAuthRepository.build().authenticate(
-          message: "message",
-          fallbackLabel: "fallbackLabel",
-        ),
-        builder: (context, snapshot) {
-          return Text("data");
-        },
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: [
+          WelcomeScreen(),
+          TransactionScreen(),
+          ProfileScreen(),
+        ],
+
       ),
+        bottomNavigationBar: CustomBottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _currentIndex,
+        )
     );
   }
 }

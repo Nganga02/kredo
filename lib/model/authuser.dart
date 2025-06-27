@@ -24,9 +24,10 @@ class EmailAuthUser{
 
 @immutable
 class RegisteredUser{
-  final String? Id;
-  final String? phoneNumber;
-  final String? displayName;
+  final String id;
+  final String phoneNumber;
+  final String displayName;
+  final int balance;
 
-  const RegisteredUser(this.Id, this.phoneNumber, this.displayName);
+  const RegisteredUser({required this.balance, required this.id, required this.phoneNumber, required this.displayName});
 }

@@ -29,6 +29,19 @@ void main() async {
             textStyle: TextStyle(color: Colors.white),
           ),
         ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Color.fromRGBO(240, 240, 240, 1),
+          type: BottomNavigationBarType.shifting,
+          selectedLabelStyle: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+          selectedIconTheme: IconThemeData(
+            color: Colors.green.shade700,
+          ),
+          unselectedIconTheme: IconThemeData(
+            color: Colors.black,),
+        ),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
@@ -53,6 +66,19 @@ void main() async {
           style: TextButton.styleFrom(
             foregroundColor: Colors.white,
           ),
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Color.fromRGBO(10, 10, 10, 1),
+          type: BottomNavigationBarType.shifting,
+          selectedLabelStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+          selectedIconTheme: IconThemeData(
+            color: Colors.green.shade700,
+          ),
+          unselectedIconTheme: IconThemeData(
+            color: Colors.grey,),
         ),
       ),
       themeMode: ThemeMode.system,

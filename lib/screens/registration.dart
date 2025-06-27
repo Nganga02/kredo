@@ -137,7 +137,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       FirebaseAuthRepository.build().sendEmailVerification,
                     );
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/home',
+                      '/login',
                       (Route<dynamic> route) => false,
                     );
                   } catch (e) {
