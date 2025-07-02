@@ -30,6 +30,7 @@ abstract class FirebaseAuthProvider {
 
   Future<EmailAuthUser> createEmailUser({
     required String email,
+    required String name,
     required String password,
     required String confirmPassword,
     required String phoneNumber,

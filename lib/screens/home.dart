@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          WelcomeScreen(),
+          WelcomeScreen(onTap: _currentIndex, currentIndex: _selectedIndex,),
           TransactionScreen(),
           ProfileScreen(),
         ],

@@ -17,10 +17,10 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   @override
   Future<EmailAuthUser> createEmailUser({
     required String email,
+    required String name,
     required String password,
     required String confirmPassword,
     required String phoneNumber,
-
   }) async {
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -29,7 +29,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
         );
         final firebaseUser = FirebaseAuth.instance.currentUser;
         if (firebaseUser != null) {
-          await firebaseUser.updateDisplayName(phoneNumber);
+          await firebaseUser.updateDisplayName(name);
         }
         final user = currentEmailUser;
         if (user != null) {
@@ -75,7 +75,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   String? get displayName{
     final user = currentEmailUser;
     if (user != null) {
-      print("this is the user displayName********************** ${user.displayName}");
+      print("this is the user displayName********************** ${user.displayName} and the verification status is: ${user.isEmailVerified}");
       return user.displayName;
     }
     return null;
@@ -89,12 +89,21 @@ class FirebaseAuthService implements FirebaseAuthProvider {
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance
+      final userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+
+      User? firebaseUser = userCredential.user;
+
+      if (firebaseUser != null) {
+        await firebaseUser.reload();
+        firebaseUser = FirebaseAuth.instance.currentUser;
+
       final user = currentEmailUser;
       if (user != null) {
         return user;
       } else {
+        throw UserNotLoggedInAuthException();
+      }} else {
         throw UserNotLoggedInAuthException();
       }
     } on FirebaseAuthException catch (e) {
@@ -103,6 +112,14 @@ class FirebaseAuthService implements FirebaseAuthProvider {
           throw UserNotFoundAuthException();
         case 'wrong-password':
           throw WrongPasswordAuthException();
+        case 'invalid-email':
+          throw InvalidEmailAuthException();
+        case 'user-disabled':
+          throw UserDisabledAuthException();
+        case 'too-many-requests':
+          throw TooManyRequestsAuthException();
+        case 'invalid-credential':
+          throw InvalidCredentialAuthException();
         default:
           throw GenericAuthException();
       }

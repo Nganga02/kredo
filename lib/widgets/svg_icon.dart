@@ -19,12 +19,14 @@ class SvgIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      assetPath,
-      width: size,
-      height: size,
-      colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
-      semanticsLabel: semanticLabel,
+    return Center(
+      child: SvgPicture.asset(
+        assetPath,
+        width: size,
+        height: size,
+        colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
+        semanticsLabel: semanticLabel,
+      ),
     );
   }
 }

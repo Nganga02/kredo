@@ -31,3 +31,10 @@ class RegisteredUser{
 
   const RegisteredUser({required this.balance, required this.id, required this.phoneNumber, required this.displayName});
 }
+
+class Transaction{
+  final String time;
+  final int amount;
+
+  Transaction({required this.time, required this.amount});
+}

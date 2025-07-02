@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kredo/repository/auth_repositoty.dart';
+import 'package:kredo/repository/kyc_repository.dart';
 import 'package:kredo/screens/loading.dart';
 import 'package:kredo/utilities/information_window.dart';
 import 'package:kredo/widgets/email_verification.dart';
 import 'package:kredo/widgets/textfield.dart';
+
+import '../model/authuser.dart' show RegisteredUser;
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key, required this.title});
@@ -24,6 +26,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   late final TextEditingController _password;
   late final TextEditingController _confirmPass;
   late final TextEditingController _phoneNumber;
+  late final TextEditingController _name;
 
   @override
   void initState() {
@@ -31,6 +34,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _password = TextEditingController();
     _confirmPass = TextEditingController();
     _phoneNumber = TextEditingController();
+    _name = TextEditingController();
     super.initState();
   }
 
@@ -40,6 +44,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _password.dispose();
     _confirmPass.dispose();
     _phoneNumber.dispose();
+    _name.dispose();
     super.dispose();
   }
 
@@ -68,6 +73,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     hintText: "exp: +254 746 011 197",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Colors.green.shade700,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextField(
+                  controller: _name,
+                  cursorColor: Colors.green.shade700,
+                  cursorErrorColor: Colors.red,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    hintText: "Enter your name",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -118,6 +146,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 password: _confirmPass,
                 keyboardType: TextInputType.text,
               ),
+
               SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () async {
@@ -125,12 +154,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   final password = _password.text;
                   final confirmPass = _confirmPass.text;
                   final phoneNumber = _phoneNumber.text;
+                  final name = _name.text;
                   try {
-                    FirebaseAuthRepository.build().createEmailUser(
+                    await FirebaseAuthRepository.build().createEmailUser(
                       email: email,
+                      name: name,
                       password: password,
                       confirmPassword: confirmPass,
                       phoneNumber: phoneNumber,
+                    );
+                    await KycRepository.build(phoneNumber).updateCustomerKyc(
+                      user: RegisteredUser(
+                        balance: 0,
+                        id: "XXXXXXXXX",
+                        phoneNumber: phoneNumber,
+                        displayName: name,
+                      ),
                     );
                     await emailVerificationDialog(
                       context,

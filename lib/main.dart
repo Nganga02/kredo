@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../screens/landing.dart';
 import '../constants/pageroutes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Lock orientation to portrait only
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,

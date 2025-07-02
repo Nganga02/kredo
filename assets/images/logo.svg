@@ -25,20 +25,20 @@
 <!--</svg>-->
 
 
-<svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+<svg width="400" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
 <defs>
     <linearGradient id="animatedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="40%" stop-color="green"/>
         <stop offset="75%" stop-color="red"/>
-        <stop offset="65%" stop-color="green"/>
+        <stop offset="85%" stop-color="green"/>
     </linearGradient>
 </defs>
 
-<text x="88" y="36"
+<text x="50" y="36"
     font-family="sans-serif"
     font-size="48"
     font-weight="bold"
     fill="url(#animatedGradient)">
-    pinlit
+    mobitalk
 </text>
 </svg>
