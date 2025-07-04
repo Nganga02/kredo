@@ -9,3 +9,11 @@ final airtimes = <String, String?>{
   '500':'20%',
   '1000': '50%',
 };
+
+final bulk_airtime = <String, String?>{
+  '5000': null,
+  '10000' : '10%',
+  '20000':'10%',
+  '50000': '10%',
+  '100000': '20%',
+};

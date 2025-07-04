@@ -15,6 +15,7 @@ class TrxService implements TrxProvider {
       if (value.exists && value.data() != null) {
         try {
           final trxRef = value.data()!['transactions'];
+          print('\n This s the document reference: $trxRef \n');
           try {
             final trxData = await trxRef.get();
             if (trxData.exists && trxData.data() != null) {

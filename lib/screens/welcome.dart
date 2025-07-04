@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kredo/repository/auth_repositoty.dart';
 import 'package:kredo/repository/kyc_repository.dart';
 import 'package:kredo/repository/trx_repository.dart';
@@ -30,24 +31,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   height: 50,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).scaffoldBackgroundColor,
+                    color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
                   ),
                   child: Center(
                     child: Text(
                       FirebaseAuthRepository.build().displayName![0],
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      style: GoogleFonts.abel(
+                        textStyle: Theme.of(context).textTheme.titleLarge,
                         fontWeight: FontWeight.bold,
-                      ),
+                      )
                     ),
                   ),
                 ),
                 SizedBox(width: 20),
                 Text(
                   "Hello ${FirebaseAuthRepository.build().displayName!}  👋",
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
+                  style: GoogleFonts.abel(
+                      textStyle: Theme.of(context).textTheme.titleMedium,
+                      fontWeight: FontWeight.bold,
+                    )
                   ),
-                ),
               ],
             ),
             SizedBox(height: 40),
@@ -56,7 +59,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               height: MediaQuery.of(context).size.height * 0.25,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
-                color: Colors.grey.shade900.withAlpha(80),
+                color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -98,16 +101,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
             SizedBox(height: 20),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                physics: NeverScrollableScrollPhysics(),
-                childAspectRatio: 1.2,
+            SizedBox(
+              height: 150,
+              child: Row(
                 children: [
-                  GridButton(buttonName: "Buy Airtime", page: '/airtime'),
-                  GridButton(buttonName: "Buy Bulk Airtime", page: '/airtime'),
+                  Expanded(
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      physics: NeverScrollableScrollPhysics(),
+                      childAspectRatio: 1.2,
+                      children: [
+                        GridButton(buttonName: "Buy Airtime", page: '/airtime'),
+                        GridButton(buttonName: "Buy Bulk Airtime", page: '/airtime'),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

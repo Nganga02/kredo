@@ -15,8 +15,6 @@ class KycService implements KycProvider {
       return _cachedUser!;
     } else {
       try {
-        final count = _database.collection('kyc').count();
-        print("\n ${count.toString()} \n");
         final value = await _database.collection('kyc').doc(number).get();
         if (value.exists && value.data() != null) {
           try {
@@ -24,7 +22,7 @@ class KycService implements KycProvider {
               balance: value.data()!['balance'],
               id: value.data()!['id'],
               phoneNumber: value.id,
-              displayName: value.data()!['name '],
+              displayName: value.data()!['name'],
             );
           } catch (e) {
             print("This is the error ${e.toString()}");
@@ -46,11 +44,8 @@ class KycService implements KycProvider {
   }
 
   @override
-  Future<int> get balance async {
+  Future<int> get balance async => (await _fetchCredentials()).balance;
 
-    print(' \n this is the balance^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ${(await _fetchCredentials()).balance}');
-    return (await _fetchCredentials()).balance;
-  }
 
 
   @override
@@ -61,7 +56,7 @@ class KycService implements KycProvider {
   Future<bool> updateCustomerKyc({required RegisteredUser user}) async {
     final DocumentReference transactionRef = _database
         .collection('transactions')
-        .doc(user.displayName); // You can use UID or phoneNumber for uniqueness
+        .doc(user.phoneNumber); // You can use UID or phoneNumber for uniqueness
     try{
       await _database.collection('kyc').doc(user.phoneNumber).set({
         'id': user.id,

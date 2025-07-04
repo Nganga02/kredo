@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kredo/model/airtime_deno.dart';
 import 'package:kredo/widgets/airtime_button.dart';
 
-class AirtimePurchaseScreen extends StatefulWidget {
-  const AirtimePurchaseScreen({super.key});
+class AirtimePurchaseScreen extends StatelessWidget {
+  const AirtimePurchaseScreen({super.key, required this.airtimes});
 
-  @override
-  State<AirtimePurchaseScreen> createState() => _AirtimePurchaseScreenState();
-}
+  final Map<String, String?> airtimes;
 
-class _AirtimePurchaseScreenState extends State<AirtimePurchaseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
