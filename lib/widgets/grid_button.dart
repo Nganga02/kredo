@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GridButton extends StatelessWidget {
-  const GridButton({super.key, required this.buttonName, required this.page,});
+  const GridButton({super.key, required this.buttonName, required this.page, required this.denominations,});
   
   final String buttonName;
   final String page;
+  final Map<String, String?> denominations;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,7 +20,7 @@ class GridButton extends StatelessWidget {
       child: InkWell(
         splashColor: Colors.grey.shade900.withAlpha(1),
         onTap: (){
-          Navigator.pushNamed(context, page);
+          Navigator.pushNamed(context, page, arguments: denominations);
         },
         child: Center(
           child: Column(

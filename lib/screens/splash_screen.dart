@@ -1,66 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kredo/repository/local_auth_repository.dart';
-import 'package:kredo/screens/home.dart';
-import 'package:kredo/widgets/navigation_bar.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({super.key, required this.child});
+
+  final Widget child;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
-  late bool _shouldLogin;
+class _SplashScreenState extends State<SplashScreen>
+    with WidgetsBindingObserver {
+  AppLifecycleState? _notification;
+  bool _isAuthenticated = false;
+  bool _isAuthenticating = false;
 
   @override
   void initState() {
-    _shouldLogin = true;
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _authenticate();
   }
 
   @override
   void dispose() {
-    _shouldLogin = false;
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
-  void _exitApp() {
-    SystemNavigator.pop();
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    _notification = state;
+
+    if (_notification == AppLifecycleState.resumed) {
+      print("This is the value of notification: %%%%%%%% $_notification");
+      if (!_isAuthenticated) {
+        await _authenticate();
+      } else {
+        if (mounted) setState(() {});
+      }
+    } else if (_notification == AppLifecycleState.inactive) {
+      setState(() {
+        _isAuthenticated = false;
+      }); //reset authentication status on inactive
+      print(
+        "\n This is the value of _isAuthenticated: %%%%%%%% $_isAuthenticated",
+      );
+    }
+  }
+
+  Future<void> _authenticate() async {
+    if (_isAuthenticating) return;
+    _isAuthenticating = true;
+
+    final success = await LocalAuthRepository.build().authenticate(
+      message: "Re-authenticate to continue",
+      fallbackLabel: "Use PIN",
+    );
+
+    if (!mounted) return; // Prevent calling setState if widget is disposed
+
+    if (success) {
+      print('This is the value of success: ^^^^^^^^^^^^^^^^ $success');
+      setState(() {
+        _isAuthenticated = success;
+        _isAuthenticating = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-        future: LocalAuthRepository.build().authenticate(
-          message: "message",
-          fallbackLabel: "fallbackLabel",
-        ),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // Show loading
-            return const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            );
-          } else if (snapshot.hasData && snapshot.data == true) {
-            // Auth successful → go to home
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => HomeScreen()),
-              );
-            });
-            return const SizedBox.shrink(); // Prevents rebuilding a screen
-          } else {
-            // Auth failed → exit or retry
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _exitApp();
-            });
-            return const SizedBox.shrink();
-          }
-        },
-      ),
-    );
+    print("Rebuilding with _isAuthenticated = $_isAuthenticated");
+    if (!_isAuthenticated) {
+      return Scaffold();
+    } else {
+      return widget.child;
+    }
   }
 }

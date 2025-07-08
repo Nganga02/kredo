@@ -180,7 +180,6 @@ final ThemeData darkTheme = ThemeData(
     onPrimary: Colors.white,
     onSecondary: Colors.white,
     onSurface: Colors.white,
-    onBackground: Colors.white,
     onError: Colors.black, // Color used on error backgrounds
   ),
   appBarTheme: AppBarTheme(

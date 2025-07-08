@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kredo/repository/auth_repositoty.dart';
+import 'package:kredo/screens/home.dart';
 import 'package:kredo/screens/splash_screen.dart';
 import 'package:kredo/screens/login.dart';
 import 'package:kredo/model/authuser.dart';
@@ -28,7 +29,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     FirebaseAuthRepository.build().currentEmailUser;
                 if (emailAuthUser != null) {
                   if (emailAuthUser.isEmailVerified) {
-                    return const SplashScreen();
+                    return const SplashScreen(child: HomeScreen());
                   } else {
                     return const EmailVerificationScreen();
                   }

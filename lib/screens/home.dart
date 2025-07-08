@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kredo/repository/local_auth_repository.dart';
 import 'package:kredo/screens/profile.dart';
 import 'package:kredo/screens/transactions.dart';
 import 'package:kredo/screens/welcome.dart';
@@ -14,8 +15,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late int _selectedIndex = 0;
 
-  void _currentIndex(int index){
-    if(_selectedIndex != index) {
+  void _currentIndex(int index) {
+    if (_selectedIndex != index) {
       setState(() {
         _selectedIndex = index;
       });
@@ -29,16 +30,15 @@ class _HomeScreenState extends State<HomeScreen> {
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          WelcomeScreen(onTap: _currentIndex, currentIndex: _selectedIndex,),
+          WelcomeScreen(onTap: _currentIndex, currentIndex: _selectedIndex),
           TransactionScreen(),
           ProfileScreen(),
         ],
-
       ),
-        bottomNavigationBar: CustomBottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _currentIndex,
-        )
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _currentIndex,
+      ),
     );
   }
 }

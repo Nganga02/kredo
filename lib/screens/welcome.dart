@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kredo/model/airtime_deno.dart';
 import 'package:kredo/repository/auth_repositoty.dart';
 import 'package:kredo/repository/kyc_repository.dart';
 import 'package:kredo/repository/trx_repository.dart';
@@ -113,8 +114,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       physics: NeverScrollableScrollPhysics(),
                       childAspectRatio: 1.2,
                       children: [
-                        GridButton(buttonName: "Buy Airtime", page: '/airtime'),
-                        GridButton(buttonName: "Buy Bulk Airtime", page: '/airtime'),
+                        GridButton(buttonName: "Buy Airtime", page: '/airtime', denominations: airtimes),
+                        GridButton(buttonName: "Buy Bulk Airtime", page: '/airtime', denominations: bulk_airtime),
                       ],
                     ),
                   ),
