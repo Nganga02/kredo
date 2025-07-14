@@ -8,4 +8,7 @@ class TrxRepository implements TrxProvider{
   factory TrxRepository.build(String number) => TrxRepository(TrxService(number));
   @override
   Future<List<Transaction>> get transactions => trxProvider.transactions;
+
+  @override
+  Future<void> addTransaction(Transaction transaction)  => trxProvider.addTransaction(transaction);
 }

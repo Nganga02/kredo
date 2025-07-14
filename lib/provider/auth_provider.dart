@@ -22,6 +22,7 @@ abstract class FirebaseAuthProvider {
   EmailAuthUser? get currentEmailUser;
 
   String? get displayName;
+  String? get email;
 
   Future<EmailAuthUser> logIn({
     required String email,

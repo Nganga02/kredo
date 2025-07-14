@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kredo/provider/appstate_provider.dart';
 import 'package:kredo/widgets/svg_icon.dart';
 
-class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar({
-    super.key,
-    this.onTap,
-    required this.currentIndex,
+class CustomBottomNavigationBar extends ConsumerWidget {
+   CustomBottomNavigationBar({
+    super.key
   });
 
-  final int currentIndex;
-  final void Function(int)? onTap;
 
   @override
-  State<CustomBottomNavigationBar> createState() =>
-      _CustomBottomNavigationBarState();
-}
-
-class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  late int currentIndex = 0;
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentIndex = ref.watch(selectedIndexProvider);
+    final setIndex = ref.read(selectedIndexProvider.notifier);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0),
@@ -41,10 +34,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             children: [
               InkWell(
                 onTap: () {
-                  widget.onTap!(0);
-                  setState(() {
-                    currentIndex = 0;
-                  });
+                  setIndex.state = 0;
                 },
                 child: SvgIcon(
                   assetPath: currentIndex == 0
@@ -61,38 +51,33 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               ),
               InkWell(
                 onTap: () {
-                  widget.onTap!(1);
-                  setState(() {
-                    currentIndex = 1;
-                  });
+                  setIndex.state = 1;
                 },
                 child: FaIcon(
                   FontAwesomeIcons.exchange,
+
                   color: currentIndex == 1
                       ? Theme.of(
                           context,
-                        ).bottomNavigationBarTheme.selectedItemColor
+                        ).bottomNavigationBarTheme.selectedIconTheme!.color
                       : Theme.of(
                           context,
-                        ).bottomNavigationBarTheme.unselectedItemColor,
+                        ).bottomNavigationBarTheme.unselectedIconTheme!.color,
                 ),
               ),
               InkWell(
                 onTap: () {
-                  widget.onTap!(2);
-                  setState(() {
-                    currentIndex = 2;
-                  });
+                  setIndex.state = 2;
                 },
                 child: Icon(
                   Icons.settings,
                   color: currentIndex == 2
                       ? Theme.of(
                           context,
-                        ).bottomNavigationBarTheme.selectedItemColor
+                        ).bottomNavigationBarTheme.selectedIconTheme!.color
                       : Theme.of(
                           context,
-                        ).bottomNavigationBarTheme.unselectedItemColor,
+                        ).bottomNavigationBarTheme.unselectedIconTheme!.color,
                 ),
               ),
             ],

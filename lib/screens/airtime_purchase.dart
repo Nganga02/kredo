@@ -4,6 +4,40 @@ import 'package:kredo/widgets/airtime_button.dart';
 class AirtimePurchaseScreen extends StatelessWidget {
   const AirtimePurchaseScreen({super.key});
 
+  void _onTap(BuildContext context, String amount) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.25,
+          decoration: BoxDecoration(
+            color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: EdgeInsets.all(20),
+          clipBehavior: Clip.hardEdge,
+          child: Center(
+            child: Column(
+              children: [
+                Text("You are about to purchase Ksh. $amount"),
+                SizedBox(height: 20),
+                Text("Confirm purchase"),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextButton(onPressed: () {}, child: Text("Cancel")),
+                    ElevatedButton(onPressed: () {}, child: Text("Confirm")),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final args =
@@ -43,6 +77,7 @@ class AirtimePurchaseScreen extends StatelessWidget {
                         (entry) => AirtimeButton(
                           amount: entry.key,
                           discount: entry.value,
+                          onTap: _onTap,
                         ),
                       )
                       .toList(),

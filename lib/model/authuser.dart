@@ -15,10 +15,11 @@ class PhoneAuthUser {
 class EmailAuthUser{
   final bool isEmailVerified;
   final String? displayName;
+  final String? email;
 
-  const EmailAuthUser(this.isEmailVerified, this.displayName);
+  const EmailAuthUser(this.isEmailVerified, this.displayName, this.email);
 
-  factory EmailAuthUser.fromFirebase(User user) => EmailAuthUser(user.emailVerified, user.displayName);
+  factory EmailAuthUser.fromFirebase(User user) => EmailAuthUser(user.emailVerified, user.displayName, user.email);
 
 }
 

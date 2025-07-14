@@ -54,4 +54,22 @@ class TrxService implements TrxProvider {
     print((await _fetchTransactions()));
     return (await _fetchTransactions());
   }
+
+  @override
+  Future<void> addTransaction(trx.Transaction transaction) async {
+    try {
+      final value = await _database.collection('kyc').doc(number).get();
+      if (value.exists && value.data() != null) {
+        final trxRef = value.data()!['transactions'];
+        await trxRef.update({
+          transaction.time: {
+            'amount': transaction.amount,
+          }
+        });
+      }
+    }on FirebaseException catch (e) {
+      print("This is the firebase error message ${e.code}");
+      rethrow;
+    }
+    }
 }

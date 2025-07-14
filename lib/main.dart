@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kredo/provider/appstate_provider.dart';
 
 import '../screens/landing.dart';
 import '../constants/pageroutes.dart';
@@ -11,12 +13,38 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   runApp(
-    MaterialApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
+
+
+class MyApp extends ConsumerWidget{
+  const MyApp({super.key});
+
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider);
+
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'White Text UI',
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
+        primaryColor: Colors.green.shade700,
+        colorScheme: ColorScheme.light(
+          primary: Colors.green.shade700,
+          secondary: Colors.green.shade400,
+          surface: Colors.white,
+          error: Colors.red,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onSurface: Colors.black,
+          onError: Colors.white, // Color used on error backgrounds
+        ),
         scaffoldBackgroundColor: Colors.white, // Light deep green
         textTheme: const TextTheme(
           bodyMedium: TextStyle(color: Colors.black),
@@ -34,6 +62,11 @@ void main() async {
             textStyle: TextStyle(color: Colors.white),
           ),
         ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.black,
+          ),
+        ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: Color.fromRGBO(240, 240, 240, 1),
           type: BottomNavigationBarType.shifting,
@@ -43,15 +76,29 @@ void main() async {
           ),
           selectedIconTheme: IconThemeData(
             color: Colors.green.shade700,
+            size: 30,
           ),
           unselectedIconTheme: IconThemeData(
-            color: Colors.black,),
+              color: Colors.black,
+              size: 20
+          ),
         ),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black,
+        primaryColor: Colors.green.shade700,
+        colorScheme: ColorScheme.dark(
+          primary: Colors.green.shade700,
+          secondary: Colors.green.shade400,
+          surface: Colors.black,
+          error: Colors.red,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onSurface: Colors.white,
+          onError: Colors.black, // Color used on error backgrounds
+        ),
         textTheme: const TextTheme(
           bodyMedium: TextStyle(color: Colors.white),
           bodyLarge: TextStyle(color: Colors.white),
@@ -64,6 +111,7 @@ void main() async {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green.shade700,
+            foregroundColor: Colors.white,
             textStyle: TextStyle(color: Colors.white),
           ),
         ),
@@ -81,16 +129,19 @@ void main() async {
           ),
           selectedIconTheme: IconThemeData(
             color: Colors.green.shade700,
+            size: 30,
           ),
           unselectedIconTheme: IconThemeData(
-            color: Colors.grey,),
+              color: Colors.grey,
+              size: 20
+          ),
         ),
       ),
-      themeMode: ThemeMode.system,
+      themeMode: themeMode,
       routes: routes, // Automatically switch based on system theme
       home: LandingScreen(title: "Swipe"),
-    ),
-  );
+    );
+  }
 }
 
 
@@ -154,6 +205,7 @@ final ThemeData lightTheme = ThemeData(
     ),
     selectedIconTheme: IconThemeData(
       color: Colors.green.shade700,
+      size: 30,
     ),
     unselectedIconTheme: IconThemeData(
       color: Colors.black,

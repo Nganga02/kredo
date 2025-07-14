@@ -1,43 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+/*
+*This is the custom package section
+*/
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kredo/provider/appstate_provider.dart';
 import 'package:kredo/repository/auth_repositoty.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final setTheme = ref.read(themeModeProvider.notifier);
+    final themeMode = ref.watch(themeModeProvider);
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(
-                      context,
-                    ).bottomNavigationBarTheme.backgroundColor,
-                  ),
-                  child: Center(
-                    child: Text(
-                      FirebaseAuthRepository.build().displayName![0],
-                      style: GoogleFonts.abel(
-                        textStyle: Theme.of(context).textTheme.titleLarge,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(width: 20),
                 Text(
                   "Hello ${FirebaseAuthRepository.build().displayName!}  👋",
@@ -49,6 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Spacer(),
                 IconButton(
                   onPressed: () {
+                    setTheme.toggleTheme();
                   },
                   icon: Icon(
                     Theme.of(context).brightness == Brightness.dark
@@ -58,6 +45,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
+            SizedBox(height: 30),
+            Text(
+              "ACCOUNT INFO",
+              style: GoogleFonts.abel(
+                textStyle: Theme.of(context).textTheme.bodyLarge,
+                fontSize: 30,
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(
+                      context,
+                    ).bottomNavigationBarTheme.backgroundColor,
+                  ),
+                  child: Center(
+                    child: Text(
+                      FirebaseAuthRepository.build().displayName![0],
+                      style: GoogleFonts.abel(
+                        textStyle: Theme.of(context).textTheme.titleLarge,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Text(
+              FirebaseAuthRepository.build().displayName!,
+              style: Theme.of(context).textTheme.titleMedium
+            ),
+            SizedBox(height: 15),
+            Text(
+              FirebaseAuthRepository.build().email!,
+              style: GoogleFonts.roboto(
+                textStyle: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(onPressed: (){}, child: Text("Logout",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                      fontWeight: FontWeight.bold,
+                    )
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),

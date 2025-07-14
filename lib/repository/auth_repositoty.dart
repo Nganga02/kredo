@@ -76,4 +76,7 @@ class FirebaseAuthRepository implements FirebaseAuthProvider {
   @override
   Future<PhoneAuthUser> verifyPhone({required String phoneNumber}) =>
       firebaseAuthProvider.verifyPhone(phoneNumber: phoneNumber);
+
+  @override
+  String? get email => firebaseAuthProvider.email;
 }

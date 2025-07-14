@@ -16,7 +16,7 @@ Map<String, Widget Function(BuildContext context)>routes = {
   '/home' : (context) => SplashScreen(child: HomeScreen(),),
   '/profile' : (context) => ProfileScreen(),
   'transaction' : (context) => TransactionScreen(),
-  '/welcome' : (context) => WelcomeScreen(onTap: null, currentIndex: null,),
+  '/welcome' : (context) => WelcomeScreen(),
   '/airtime' : (context) => AirtimePurchaseScreen(),
   '/bulkAirtime' : (context) => AirtimePurchaseScreen(),
 };

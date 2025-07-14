@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+/*
+* This indicates the custom package.
+*/
 import 'package:kredo/model/airtime_deno.dart';
+import 'package:kredo/provider/appstate_provider.dart';
 import 'package:kredo/repository/auth_repositoty.dart';
 import 'package:kredo/repository/kyc_repository.dart';
 import 'package:kredo/repository/trx_repository.dart';
 import 'package:kredo/widgets/grid_button.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  WelcomeScreen({super.key, required this.onTap, required this.currentIndex});
-
-  void Function(int)? onTap;
-  int? currentIndex;
+class WelcomeScreen extends ConsumerWidget {
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
-}
-
-class _WelcomeScreenState extends State<WelcomeScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final setIndex = ref.read(selectedIndexProvider.notifier);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
@@ -85,12 +83,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         } else if (snapshot.hasData) {
                           return Text(
                             "KES. ${snapshot.data}",
-                            style: Theme.of(context).textTheme.titleLarge!
-                                .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
-                                  color: Colors.green.shade700,
-                                ),
+                            style: GoogleFonts.dmSerifText(
+                              textStyle: Theme.of(context).textTheme.titleLarge,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30 ,
+                              color: Theme.of(context).primaryColor
+                            ),
                           );
                         } else {
                           return const Text("No data");
@@ -145,9 +143,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       children: [
                         ListTile(
                           onTap: () {
-                            setState(() {
-                              widget.onTap!(1);
-                            });
+                            setIndex.state = 1;
                           },
                           title: Text(
                             'Ksh. ${snapshot.data![0].amount.toString()}',

@@ -14,6 +14,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   }
 
 
+
   @override
   Future<EmailAuthUser> createEmailUser({
     required String email,
@@ -32,6 +33,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
           await firebaseUser.updateDisplayName(name);
         }
         final user = currentEmailUser;
+        print("\n I/User: this is the user, $user\n\n\n");
         if (user != null) {
           return user;
         } else {
@@ -55,6 +57,7 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   // TODO: implement currentEmailUser
   EmailAuthUser? get currentEmailUser {
     final user = FirebaseAuth.instance.currentUser;
+    print("\n I/User: this is the user, $user\n\n\n");
     if (user != null) {
       return EmailAuthUser.fromFirebase(user);
     }
@@ -80,6 +83,15 @@ class FirebaseAuthService implements FirebaseAuthProvider {
     }
     return null;
   }
+
+  String? get email{
+    final user = currentEmailUser;
+    if (user != null) {
+      return user.email;
+    }
+    return null;
+  }
+
 
 
 
