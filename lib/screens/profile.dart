@@ -95,7 +95,10 @@ class ProfileScreen extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(onPressed: (){}, child: Text("Logout",
+                TextButton(onPressed: () async {
+                  await FirebaseAuthRepository.build().signOut();
+                  Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                }, child: Text("Logout",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Theme.of(context).colorScheme.error,
                       fontWeight: FontWeight.bold,

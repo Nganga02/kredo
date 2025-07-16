@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kredo/provider/appstate_provider.dart' show registeredUserProvider;
 import 'package:kredo/repository/auth_repositoty.dart';
 import 'package:kredo/repository/kyc_repository.dart';
 import 'package:kredo/screens/loading.dart';
@@ -72,7 +74,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   cursorErrorColor: Colors.red,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    hintText: "exp: +254 746 011 197",
+                    hintText: "exp: +254 712 345 678",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -148,42 +150,54 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
 
               SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () async {
-                  final email = _email.text;
-                  final password = _password.text;
-                  final confirmPass = _confirmPass.text;
-                  final phoneNumber = _phoneNumber.text;
-                  final name = _name.text;
-                  try {
-                    await FirebaseAuthRepository.build().createEmailUser(
-                      email: email,
-                      name: name,
-                      password: password,
-                      confirmPassword: confirmPass,
-                      phoneNumber: phoneNumber,
-                    );
-                    await KycRepository.build(phoneNumber).updateCustomerKyc(
-                      user: RegisteredUser(
-                        balance: 0,
-                        id: "XXXXXXXXX",
-                        phoneNumber: phoneNumber,
-                        displayName: name,
-                      ),
-                    );
-                    await emailVerificationDialog(
-                      context,
-                      FirebaseAuthRepository.build().sendEmailVerification,
-                    );
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/login',
-                      (Route<dynamic> route) => false,
-                    );
-                  } catch (e) {
-                    await showErrorDialog(context, e.toString());
-                  }
-                },
-                child: Text("Sign up"),
+              Consumer(
+                builder: (context, ref, child) {
+                  final setRegisteredUser = ref.read(registeredUserProvider.notifier);
+                  return  ElevatedButton(
+                    onPressed: () async {
+                      final email = _email.text;
+                      final password = _password.text;
+                      final confirmPass = _confirmPass.text;
+                      final phoneNumber = _phoneNumber.text;
+                      final name = _name.text;
+                      try {
+                        await FirebaseAuthRepository.build().createEmailUser(
+                          email: email,
+                          name: name,
+                          password: password,
+                          confirmPassword: confirmPass,
+                          phoneNumber: phoneNumber,
+                        );
+                        await KycRepository.build(phoneNumber).updateCustomerKyc(
+                          user: RegisteredUser(
+                            balance: 0,
+                            id: "XXXXXXXXX",
+                            phoneNumber: phoneNumber,
+                            displayName: name,
+                          ),
+                        );
+                        setRegisteredUser.setRegisteredUser(RegisteredUser(
+                          balance: 0,
+                          id: "XXXXXXXXX",
+                          phoneNumber: phoneNumber,
+                          displayName: name,));
+                        await emailVerificationDialog(
+                          context,
+                          FirebaseAuthRepository.build().sendEmailVerification,
+                        );
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/login',
+                              (Route<dynamic> route) => false,
+                        );
+                      } catch (e) {
+                        await showErrorDialog(context, e.toString());
+                      }
+                    },
+                    child: Text("Sign up"),
+                  );
+
+                }
+
               ),
               SizedBox(height: 40),
               Row(

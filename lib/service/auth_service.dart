@@ -57,7 +57,6 @@ class FirebaseAuthService implements FirebaseAuthProvider {
   // TODO: implement currentEmailUser
   EmailAuthUser? get currentEmailUser {
     final user = FirebaseAuth.instance.currentUser;
-    print("\n I/User: this is the user, $user\n\n\n");
     if (user != null) {
       return EmailAuthUser.fromFirebase(user);
     }

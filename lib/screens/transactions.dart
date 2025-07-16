@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kredo/repository/trx_repository.dart';
 
-class TransactionScreen extends StatelessWidget {
+import '../provider/appstate_provider.dart' show registeredUserProvider;
+
+class TransactionScreen extends ConsumerWidget {
   const TransactionScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final registeredUser = ref.watch(registeredUserProvider);
     return SafeArea(
       child: Column(
         children: [
@@ -18,13 +22,13 @@ class TransactionScreen extends StatelessWidget {
           ),
           Expanded(
             child: FutureBuilder(
-              future: TrxRepository.build('+254746011197').transactions,
+              future: TrxRepository.build(registeredUser!.phoneNumber).transactions,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Text("");
                 } else if (snapshot.hasError) {
                   return Text("");
-                } else {
+                } else if(snapshot.hasData) {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
@@ -34,6 +38,10 @@ class TransactionScreen extends StatelessWidget {
                         subtitle: Text(transaction.time),
                       );
                     },
+                  );
+                }else{
+                  return Center(
+                    child: Text("No transactions yet"),
                   );
                 }
               },

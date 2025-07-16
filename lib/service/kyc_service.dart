@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kredo/model/authuser.dart';
 import 'package:kredo/provider/kyc_provider.dart';
-import 'package:kredo/repository/auth_repositoty.dart';
 
 class KycService implements KycProvider {
   final String number;

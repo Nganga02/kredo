@@ -17,6 +17,7 @@ class WelcomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final setIndex = ref.read(selectedIndexProvider.notifier);
+    final registeredUser = ref.watch(registeredUserProvider);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
@@ -73,7 +74,7 @@ class WelcomeScreen extends ConsumerWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     FutureBuilder<int>(
-                      future: KycRepository.build('+254746011197').balance,
+                      future: KycRepository.build(registeredUser!.phoneNumber).balance,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -91,7 +92,7 @@ class WelcomeScreen extends ConsumerWidget {
                             ),
                           );
                         } else {
-                          return const Text("No data");
+                          return const Text("No transactions yet");
                         }
                       },
                     ),
@@ -129,7 +130,7 @@ class WelcomeScreen extends ConsumerWidget {
             ),
             SizedBox(height: 20),
             FutureBuilder<List<dynamic>>(
-              future: TrxRepository.build('+254746011197').transactions,
+              future: TrxRepository.build(registeredUser.phoneNumber).transactions,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();

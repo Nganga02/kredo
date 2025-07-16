@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kredo/repository/local_auth_repository.dart';
 
@@ -23,6 +25,8 @@ class _SplashScreenState extends State<SplashScreen>
     _authenticate();
   }
 
+  Timer? _pausedTimer;
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -35,19 +39,19 @@ class _SplashScreenState extends State<SplashScreen>
     _notification = state;
 
     if (_notification == AppLifecycleState.resumed) {
-      print("This is the value of notification: %%%%%%%% $_notification");
       if (!_isAuthenticated) {
         await _authenticate();
       } else {
         if (mounted) setState(() {});
       }
     } else if (_notification == AppLifecycleState.inactive) {
-      setState(() {
-        _isAuthenticated = false;
-      }); //reset authentication status on inactive
-      print(
-        "\n This is the value of _isAuthenticated: %%%%%%%% $_isAuthenticated",
-      );
+      _pausedTimer = Timer(Duration(seconds: 2), () {
+        if(_notification != AppLifecycleState.resumed){
+          setState(() {
+            _isAuthenticated = false;
+          });
+        }
+      });
     }
   }
 
@@ -79,5 +83,26 @@ class _SplashScreenState extends State<SplashScreen>
     } else {
       return widget.child;
     }
+  }
+}
+
+class AuthenticationScreen extends StatefulWidget {
+  const AuthenticationScreen({super.key});
+
+  @override
+  State<AuthenticationScreen> createState() => _AuthenticationScreenState();
+}
+
+class _AuthenticationScreenState extends State<AuthenticationScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text("Authentication Screen")],
+        ),
+      ),
+    );
   }
 }

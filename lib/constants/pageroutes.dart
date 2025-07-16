@@ -19,4 +19,5 @@ Map<String, Widget Function(BuildContext context)>routes = {
   '/welcome' : (context) => WelcomeScreen(),
   '/airtime' : (context) => AirtimePurchaseScreen(),
   '/bulkAirtime' : (context) => AirtimePurchaseScreen(),
+  '/authScreen' : (context) => AuthenticationScreen(),
 };

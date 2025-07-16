@@ -26,8 +26,12 @@ class AirtimePurchaseScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TextButton(onPressed: () {}, child: Text("Cancel")),
-                    ElevatedButton(onPressed: () {}, child: Text("Confirm")),
+                    TextButton(onPressed: () {
+                      Navigator.pop(context);
+                    }, child: Text("Cancel")),
+                    ElevatedButton(onPressed: () {
+                      Navigator.of(context).pushNamed('/authScreen');
+                    }, child: Text("Confirm")),
                   ],
                 ),
               ],
