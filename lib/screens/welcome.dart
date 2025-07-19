@@ -13,7 +13,6 @@ import 'package:kredo/repository/trx_repository.dart';
 import 'package:kredo/widgets/grid_button.dart';
 
 class WelcomeScreen extends ConsumerWidget {
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final setIndex = ref.read(selectedIndexProvider.notifier);
@@ -31,7 +30,9 @@ class WelcomeScreen extends ConsumerWidget {
                   height: 50,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                    color: Theme.of(
+                      context,
+                    ).bottomNavigationBarTheme.backgroundColor,
                   ),
                   child: Center(
                     child: Text(
@@ -39,7 +40,7 @@ class WelcomeScreen extends ConsumerWidget {
                       style: GoogleFonts.abel(
                         textStyle: Theme.of(context).textTheme.titleLarge,
                         fontWeight: FontWeight.bold,
-                      )
+                      ),
                     ),
                   ),
                 ),
@@ -47,10 +48,10 @@ class WelcomeScreen extends ConsumerWidget {
                 Text(
                   "Hello ${FirebaseAuthRepository.build().displayName!}  👋",
                   style: GoogleFonts.abel(
-                      textStyle: Theme.of(context).textTheme.titleMedium,
-                      fontWeight: FontWeight.bold,
-                    )
+                    textStyle: Theme.of(context).textTheme.titleMedium,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
               ],
             ),
             SizedBox(height: 40),
@@ -59,7 +60,9 @@ class WelcomeScreen extends ConsumerWidget {
               height: MediaQuery.of(context).size.height * 0.25,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
-                color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                color: Theme.of(
+                  context,
+                ).bottomNavigationBarTheme.backgroundColor,
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -74,7 +77,9 @@ class WelcomeScreen extends ConsumerWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     FutureBuilder<int>(
-                      future: KycRepository.build(registeredUser!.phoneNumber).balance,
+                      future: KycRepository.build(
+                        registeredUser!.phoneNumber,
+                      ).balance,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -87,8 +92,8 @@ class WelcomeScreen extends ConsumerWidget {
                             style: GoogleFonts.dmSerifText(
                               textStyle: Theme.of(context).textTheme.titleLarge,
                               fontWeight: FontWeight.bold,
-                              fontSize: 30 ,
-                              color: Theme.of(context).primaryColor
+                              fontSize: 30,
+                              color: Theme.of(context).primaryColor,
                             ),
                           );
                         } else {
@@ -113,8 +118,16 @@ class WelcomeScreen extends ConsumerWidget {
                       physics: NeverScrollableScrollPhysics(),
                       childAspectRatio: 1.2,
                       children: [
-                        GridButton(buttonName: "Buy Airtime", page: '/airtime', denominations: airtimes),
-                        GridButton(buttonName: "Buy Bulk Airtime", page: '/airtime', denominations: bulk_airtime),
+                        GridButton(
+                          buttonName: "Buy Airtime",
+                          page: '/airtime',
+                          denominations: airtimes,
+                        ),
+                        GridButton(
+                          buttonName: "Buy Bulk Airtime",
+                          page: '/airtime',
+                          denominations: bulk_airtime,
+                        ),
                       ],
                     ),
                   ),
@@ -124,13 +137,16 @@ class WelcomeScreen extends ConsumerWidget {
             SizedBox(height: 20),
             Text(
               "Recent",
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(
+                textStyle: Theme.of(context).textTheme.titleMedium,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             SizedBox(height: 20),
             FutureBuilder<List<dynamic>>(
-              future: TrxRepository.build(registeredUser.phoneNumber).transactions,
+              future: TrxRepository.build(
+                registeredUser.phoneNumber,
+              ).transactions,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();

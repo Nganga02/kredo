@@ -21,17 +21,17 @@ class AirtimePurchaseScreen extends StatelessWidget {
               children: [
                 Text("You are about to purchase Ksh. $amount"),
                 SizedBox(height: 20),
-                Text("Confirm purchase"),
+                const Text("Confirm purchase"),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     TextButton(onPressed: () {
                       Navigator.pop(context);
-                    }, child: Text("Cancel")),
+                    }, child: const Text("Cancel")),
                     ElevatedButton(onPressed: () {
                       Navigator.of(context).pushNamed('/authScreen');
-                    }, child: Text("Confirm")),
+                    }, child:  const Text("Confirm")),
                   ],
                 ),
               ],

@@ -5,8 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final selectedIndexProvider = StateProvider<int>((ref) => 0);
 
-
-
 class ThemeNotifier extends StateNotifier<ThemeMode> {
   ThemeNotifier() : super(ThemeMode.system);
 
@@ -19,13 +17,13 @@ class ThemeNotifier extends StateNotifier<ThemeMode> {
 }
 
 final themeModeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>(
-      (ref) => ThemeNotifier(),
+  (ref) => ThemeNotifier(),
 );
 
 class RegisteredUserNotifier extends StateNotifier<RegisteredUser?> {
   static const _userKey = 'currentUser';
 
-  RegisteredUserNotifier() : super(null){
+  RegisteredUserNotifier() : super(null) {
     _loadRegisteredUser();
   }
 
@@ -50,6 +48,36 @@ class RegisteredUserNotifier extends StateNotifier<RegisteredUser?> {
   }
 }
 
-final registeredUserProvider = StateNotifierProvider<RegisteredUserNotifier, RegisteredUser?>(
+final registeredUserProvider =
+    StateNotifierProvider<RegisteredUserNotifier, RegisteredUser?>(
       (ref) => RegisteredUserNotifier(),
-);
+    );
+
+class AuthenticationNotifier extends StateNotifier<String> {
+  AuthenticationNotifier() : super('');
+
+  void updatePin(String pin) {
+    state += pin;
+
+    if(state.length == 4) {
+      try{
+        authenticate();
+      } on Exception catch(e) {
+        rethrow;
+      }
+    }
+  }
+
+  bool authenticate() {
+    if (state == '1234') {
+      return true;
+    } else {
+      throw Exception('Invalid Pin');
+    }
+  }
+}
+
+final authenticationProvider =
+    StateNotifierProvider<AuthenticationNotifier, String>(
+      (ref) => AuthenticationNotifier(),
+    );
